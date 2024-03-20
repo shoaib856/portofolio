@@ -1,24 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FormEvent, useRef } from "react";
-import emailjs from "@emailjs/browser";
+import { useForm } from "@formspree/react";
+import { FormEvent } from "react";
 
 const Contact = () => {
-  const form = useRef<HTMLFormElement | string>("");
+  const [, handleSubmit] = useForm("mwkgnrdg");
 
-  const sendEmail = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    emailjs
-      .sendForm("service_8hlfbvj", "template_7cyu15l", form?.current, {
-        publicKey: "1KqiuSWCW0VGmPknL",
-      })
-      .then(
-        () => {
-          alert("SUCCESS!");
-        },
-        (error) => {
-          alert("FAILED... " + error.text);
-        }
-      );
+  const submit = (e: FormEvent<HTMLFormElement>) => {
+    handleSubmit(e);
+    e.currentTarget.reset();
   };
 
   return (
@@ -50,7 +39,7 @@ const Contact = () => {
         </div>
         <form
           name="contact"
-          onSubmit={sendEmail}
+          onSubmit={submit}
           className="lg:w-1/3 md:w-1/2 flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0"
         >
           <h2 className="text-white sm:text-4xl text-3xl mb-1 font-medium title-font">
@@ -66,7 +55,7 @@ const Contact = () => {
             <input
               type="text"
               id="name"
-              name="user_name"
+              name="name"
               className="w-full bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
@@ -77,7 +66,7 @@ const Contact = () => {
             <input
               type="email"
               id="email"
-              name="user_email"
+              name="email"
               className="w-full bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
